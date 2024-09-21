@@ -9,6 +9,7 @@ import (
 
 func main() {
 	http.HandleFunc("/", groupie.HandleHome)
+	http.HandleFunc("/informations/{id}", groupie.HandleInfos)
 	fmt.Println("Starting server on http://localhost:8080")
 	http.ListenAndServe(":8080", nil)
 }

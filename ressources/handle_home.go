@@ -16,9 +16,9 @@ func HandleHome(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var artists []Artist
+	var artists []Artists
 	fetch("https://groupietrackers.herokuapp.com/api/", "artists", &artists)
-	tmpl, err := template.ParseFiles("index.html")
+	tmpl, err := template.ParseFiles("templates/index.html")
 	if err != nil {
 		http.Error(w, "500 Internal server error!", http.StatusInternalServerError)
 		return
