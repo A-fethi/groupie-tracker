@@ -7,7 +7,7 @@ import (
 
 func HandleInfos(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
-		HandleError(w, http.StatusMethodNotAllowed)
+		HandleError(w, http.StatusBadRequest)
 		return
 	}
 
@@ -18,29 +18,27 @@ func HandleInfos(w http.ResponseWriter, r *http.Request) {
 	var dates Dates
 	var relations Relations
 
-	fetch("https://groupietrackers.herokuapp.com/api/", "artists/"+id, &artist)
+	if err := fetch("https://groupietrackers.herokuapp.com/api/", "artists/"+id, &artist); err != nil {
+		HandleError(w, http.StatusInternalServerError)
+		return
+	}
+
+	if err := fetch("https://groupietrackers.herokuapp.com/api/", "locations/"+id, &locations); err != nil {
+		HandleError(w, http.StatusInternalServerError)
+		return
+	}
+
+	if err := fetch("https://groupietrackers.herokuapp.com/api/", "dates/"+id, &dates); err != nil {
+		HandleError(w, http.StatusInternalServerError)
+		return
+	}
+
+	if err := fetch("https://groupietrackers.herokuapp.com/api/", "relation/"+id, &relations); err != nil {
+		HandleError(w, http.StatusInternalServerError)
+		return
+	}
+
 	tmpl, err := template.ParseFiles("templates/infos.html")
-	if err != nil {
-		HandleError(w, http.StatusInternalServerError)
-		return
-	}
-
-	fetch("https://groupietrackers.herokuapp.com/api/", "locations/"+id, &locations)
-	_, err = template.ParseFiles("templates/infos.html")
-	if err != nil {
-		HandleError(w, http.StatusInternalServerError)
-		return
-	}
-
-	fetch("https://groupietrackers.herokuapp.com/api/", "dates/"+id, &dates)
-	_, err = template.ParseFiles("templates/infos.html")
-	if err != nil {
-		HandleError(w, http.StatusInternalServerError)
-		return
-	}
-
-	fetch("https://groupietrackers.herokuapp.com/api/", "relation/"+id, &relations)
-	_, err = template.ParseFiles("templates/infos.html")
 	if err != nil {
 		HandleError(w, http.StatusInternalServerError)
 		return

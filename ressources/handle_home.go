@@ -7,12 +7,12 @@ import (
 
 func HandleHome(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
-		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+		HandleError(w, http.StatusBadRequest)
 		return
 	}
 
 	if r.URL.Path != "/" {
-		http.Error(w, "Not found", http.StatusNotFound)
+		HandleError(w, http.StatusNotFound)
 		return
 	}
 
@@ -20,12 +20,12 @@ func HandleHome(w http.ResponseWriter, r *http.Request) {
 	fetch("https://groupietrackers.herokuapp.com/api/", "artists", &artists)
 	tmpl, err := template.ParseFiles("templates/index.html")
 	if err != nil {
-		http.Error(w, "500 Internal server error!", http.StatusInternalServerError)
+		HandleError(w, http.StatusInternalServerError)
 		return
 	}
 	err = tmpl.Execute(w, artists)
 	if err != nil {
-		http.Error(w, "500 Internal server error!", http.StatusInternalServerError)
+		HandleError(w, http.StatusInternalServerError)
 		return
 	}
 }
