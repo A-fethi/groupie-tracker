@@ -1,0 +1,17 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+button:hover {
+    cursor: pointer;
+    border-radius: 10px;
+}

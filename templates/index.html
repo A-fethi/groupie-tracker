@@ -4,19 +4,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../static/style.css">
     <title>Groupie Tracker</title>
 </head>
 
 <body>
-    {{range .}}
-    <form action="/informations/{{.Id}}" method="post">
-        <button type="submit">
-            <img src="{{.Image}}" alt="{{.Name}}">
-        </button>
-        {{.Name}}
-    </form>
+    <div class="container">
+        {{range .}}
+        <form action="/informations/{{.Id}}" method="post">
+            <div class="card">
+                <div>
+                    <button type="submit">
+                        <img src="{{.Image}}" alt="{{.Name}}">
+                    </button>
+                </div>
+                <div>
+                    {{.Name}}
+                </div>
+        </form>
+    </div>
     {{end}}
+    </div>
 </body>
 
 </html>
